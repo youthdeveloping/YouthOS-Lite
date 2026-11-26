@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xsettings" version="1.0">
-  <property name="Net" type=" empty">
-  </property>
   <property name="Gtk" type="empty">
     <property name="FontName" type="string" value="Noto Sans CJK KR 10"/>
     <property name="MonospaceFontName" type="string" value="Noto Sans Mono CJK KR 10"/>
