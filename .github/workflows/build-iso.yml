@@ -1,0 +1,73 @@
+name: Build YouthOS-Lite ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - "config/**"
+      - ".github/workflows/build-iso.yml"
+      - "scripts/**"
+      - "ROADMAP.md"
+      - "BUILDING.md"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: youthos-lite-iso-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-iso:
+    name: Build Debian 13 live ISO
+    runs-on: ubuntu-latest
+    container:
+      image: debian:trixie
+    timeout-minutes: 180
+    steps:
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            ca-certificates \
+            live-build \
+            debootstrap \
+            squashfs-tools \
+            xorriso \
+            dosfstools \
+            mtools \
+            git
+          rm -rf /var/lib/apt/lists/*
+
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Configure live-build
+        run: lb config
+
+      - name: Build ISO
+        run: lb build
+
+      - name: Verify ISO output
+        shell: bash
+        run: |
+          shopt -s nullglob
+          images=( *.iso )
+          if (( ${#images[@]} == 0 )); then
+            echo "No ISO image was generated."
+            find . -maxdepth 2 -type f -printf '%p %s bytes\n' | sort
+            exit 1
+          fi
+          for image in "${images[@]}"; do
+            test -s "$image"
+            sha256sum "$image"
+          done
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: youthos-lite-iso-${{ github.run_number }}
+          path: "*.iso"
+          if-no-files-found: error
+          retention-days: 7
