@@ -22,35 +22,32 @@ jobs:
   build-iso:
     name: Build Debian 13 live ISO
     runs-on: ubuntu-latest
-    container:
-      image: debian:trixie
     timeout-minutes: 180
     steps:
-      - name: Install build dependencies
-        run: |
-          apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            ca-certificates \
-            live-build \
-            debootstrap \
-            squashfs-tools \
-            xorriso \
-            dosfstools \
-            mtools \
-            git
-          rm -rf /var/lib/apt/lists/*
-
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Prepare build configuration
-        run: chmod +x config/auto/config
-
-      - name: Configure live-build
-        run: lb config
-
-      - name: Build ISO
-        run: lb build
+      - name: Build ISO in privileged Debian container
+        run: |
+          docker run --privileged --rm \
+            -v "${GITHUB_WORKSPACE}:/workspace" \
+            -w /workspace \
+            debian:trixie \
+            bash -euxo pipefail -c '
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+                ca-certificates \
+                live-build \
+                debootstrap \
+                squashfs-tools \
+                xorriso \
+                dosfstools \
+                mtools \
+                git
+              chmod +x config/auto/config
+              lb config
+              lb build
+            '
 
       - name: Verify ISO output
         shell: bash
@@ -59,7 +56,7 @@ jobs:
           images=( *.iso )
           if (( ${#images[@]} == 0 )); then
             echo "No ISO image was generated."
-            find . -maxdepth 2 -type f -printf '%p %s bytes\n' | sort
+            find . -maxdepth 2 -type f -printf '%p %s bytes\\n' | sort
             exit 1
           fi
           for image in "${images[@]}"; do
@@ -70,7 +67,7 @@ jobs:
       - name: Upload ISO artifact
         uses: actions/upload-artifact@v4
         with:
-          name: youthos-lite-iso-${{ github.run_number }}
+          name: youthos-lite-iso
           path: "*.iso"
           if-no-files-found: error
           retention-days: 7
