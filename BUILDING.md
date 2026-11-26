@@ -23,6 +23,9 @@ From the repository root:
 chmod +x config/auto/config
 sudo lb config
 sudo lb build
+
+# Or use the helper script:
+sudo sh scripts/build-local.sh
 ```
 
 The build configuration is maintained in `config/auto/config`. Package selections are in `config/package-lists/`.
