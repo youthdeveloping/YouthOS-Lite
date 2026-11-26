@@ -43,6 +43,9 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
+      - name: Prepare build configuration
+        run: chmod +x config/auto/config
+
       - name: Configure live-build
         run: lb config
 
