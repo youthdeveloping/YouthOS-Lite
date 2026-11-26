@@ -9,14 +9,17 @@ xfwm4
 xfdesktop4
 xfce4-settings
 xfce4-terminal
+xfce4-taskmanager
 thunar
 tumbler
 gvfs
+gvfs-backends
 dbus-x11
 
 # Network and hardware integration
 network-manager
-network-manager-gnome
+network-manager-applet
+nm-connection-editor
 wpasupplicant
 wireless-tools
 alsa-utils
@@ -27,7 +30,8 @@ bluez
 blueman
 udisks2
 upower
-policykit-1
+polkitd
+pkexec
 sudo
 
 # Korean language and input
@@ -50,11 +54,12 @@ less
 file
 zip
 unzip
-p7zip
+7zip
 htop
 xfce4-screenshooter
 mousepad
-evince
+papers
+ristretto
 
 # Beginner development tools
 python3
