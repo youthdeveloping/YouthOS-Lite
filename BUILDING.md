@@ -20,6 +20,7 @@ sudo apt install -y live-build debootstrap squashfs-tools xorriso
 From the repository root:
 
 ```bash
+chmod +x config/auto/config
 sudo lb config
 sudo lb build
 ```
@@ -44,5 +45,5 @@ The workflow at `.github/workflows/build-iso.yml` builds inside a Debian Trixie 
 
 - This is an early development image. A successful build only proves that the image was produced; it does not prove that boot, installation, Wi-Fi, audio, graphics, or suspend work on every computer.
 - Test in a disposable virtual machine first. Back up important data before any physical installation test.
-- The current image is a live system. Installer availability and installation behavior must be verified separately before advertising it as installable.
+- The current configuration requests the Debian live installer. Installer availability and installation behavior must be verified separately before advertising it as installable.
 - Do not add proprietary firmware or third-party repositories without reviewing licensing, security, and distribution requirements.
