@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+# YouthOS-Lite live-build configuration
+# - by ChatGPT Ai
+
+lb config noauto \
+  --mode debian \
+  --distribution trixie \
+  --architectures amd64 \
+  --binary-images iso-hybrid \
+  --archive-areas "main contrib non-free-firmware" \
+  --debian-installer live \
+  --debian-installer-gui false \
+  --apt-recommends false \
+  --apt-indices false \
+  --apt-source-archives false \
+  --memtest none \
+  --iso-application "YouthOS-Lite" \
+  --iso-volume "YOUTHOS_LITE" \
+  --bootappend-live "boot=live components username=youthos locales=ko_KR.UTF-8 keyboard-layouts=kr"
