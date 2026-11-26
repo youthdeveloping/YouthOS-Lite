@@ -35,6 +35,7 @@ jobs:
             debian:trixie \
             bash -euxo pipefail -c '
               apt-get update
+              sh scripts/check-packages.sh
               DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
                 ca-certificates \
                 live-build \
