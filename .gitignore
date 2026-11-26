@@ -1,0 +1,13 @@
+# live-build generated output
+.binary
+.build
+.chroot
+.bootstrap
+.cache
+.config
+.stage
+*.iso
+*.img
+*.raw
+*.log
+*.build
