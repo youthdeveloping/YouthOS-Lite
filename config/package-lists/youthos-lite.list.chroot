@@ -27,8 +27,6 @@ bluez
 blueman
 udisks2
 upower
-udisks2
-polkitd
 policykit-1
 sudo
 
@@ -52,7 +50,7 @@ less
 file
 zip
 unzip
-p7zip-full
+p7zip
 htop
 xfce4-screenshooter
 mousepad
