@@ -4,8 +4,8 @@
 >
 > **Repository:** https://github.com/youthdeveloping/YouthOS-Lite  
 > **Relationship:** Independent lightweight edition of YouthOS. Share design assets and documentation where practical, but keep the build and release pipeline independent.  
-> **Status:** Planning  
-> **Base direction:** Debian 13 (Trixie) minimal  
+> **Status:** Early development — ISO package validation and first successful build are the immediate priorities.  
+> **Base direction:** Debian 13 (Trixie), amd64, minimal XFCE  
 > **Maintainers:** youthdeveloping
 
 ---
@@ -33,23 +33,24 @@ Progress markers: `[ ]` not started · `[~]` in progress · `[x]` completed
 
 ### Phase 0 — Project foundation
 
-- [ ] Define supported CPU architectures (initial target: amd64).
-- [ ] Document minimum and recommended hardware after testing.
-- [ ] Establish repository structure and contribution conventions.
-- [ ] Add project README, license, and issue templates.
-- [ ] Set up a reproducible Debian 13 minimal ISO build.
-- [ ] Add CI to validate configuration and build artifacts.
+- [x] Establish repository structure and contribution conventions.
+- [x] Add project README, license, and contribution guide.
+- [x] Add Debian 13 live-build configuration.
+- [x] Add GitHub Actions ISO build workflow and artifact upload.
+- [~] Produce the first successful ISO; the current workflow exposed package-name incompatibilities that are being corrected.
+- [ ] Add automated package-list validation and build artifact verification.
+- [x] Define the initial target architecture as amd64.
 
 ### Phase 1 — Lightweight base system
 
-- [ ] Start from a minimal Debian 13 installation.
-- [ ] Select a lightweight desktop: evaluate minimal XFCE against LXQt on real test hardware.
-- [ ] Remove unnecessary default packages and duplicate utilities.
+- [~] Configure a minimal Debian 13 XFCE desktop and display manager.
+- [~] Select the initial desktop baseline (minimal XFCE); compare LXQt only after a working ISO exists.
+- [~] Configure NetworkManager, audio, Bluetooth, removable storage, and power integration.
+- [~] Configure Korean locale and fcitx5 Hangul input; runtime behavior still needs testing.
 - [ ] Review enabled services and startup applications; disable only services proven unnecessary.
-- [ ] Configure a display manager and sensible power defaults.
 - [ ] Verify wired networking, Wi-Fi, audio, USB, printing basics, and common laptop hardware.
-- [ ] Confirm Korean language support and input method (fcitx5 + Hangul).
 - [ ] Add an offline-capable first-boot welcome experience.
+- [ ] Confirm the live session works reliably in a virtual machine.
 
 ### Phase 2 — YouthOS-Lite visual identity
 
@@ -61,22 +62,20 @@ Progress markers: `[ ]` not started · `[~]` in progress · `[x]` completed
 
 ### Phase 3 — Essential applications
 
-- [ ] File manager and archive utility.
-- [ ] Web browser (installable or included based on ISO size and memory testing).
-- [ ] Text editor and terminal.
-- [ ] PDF/document viewer.
-- [ ] Screenshot utility and basic system monitor.
-- [ ] Settings tools for display, sound, keyboard, mouse, network, and power.
+- [~] Configure a compact default set: file manager, terminal, text editor, archive tools, screenshot tool, and system monitor.
+- [~] Add a lightweight document/PDF viewer and image viewer.
+- [ ] Decide whether a browser belongs in the ISO after measuring image size and memory use.
+- [ ] Verify display, sound, keyboard, mouse, network, and power settings in a live session.
 - [ ] Keep optional applications out of the base image where practical.
 
 ### Phase 4 — Developer environment
 
-- [ ] Python 3 and a beginner-friendly editor.
-- [ ] Git and a simple Git configuration guide.
-- [ ] HTML, CSS, and JavaScript learning examples.
-- [ ] Optional Node.js development package.
-- [ ] Optional VS Code installation guidance (not bundled by default unless licensing and size are reviewed).
-- [ ] YouthOS learning guides and sample projects.
+- [~] Include Python 3, pip, venv, and Git.
+- [ ] Add a beginner-friendly editor workflow and Git configuration guide.
+- [ ] Add HTML, CSS, and JavaScript learning examples.
+- [ ] Provide Node.js as an optional development package.
+- [ ] Provide optional VS Code installation guidance (not bundled by default unless licensing and size are reviewed).
+- [ ] Add YouthOS learning guides and sample projects.
 - [ ] Document how to install additional languages and tools.
 
 ### Phase 5 — Setup and system tools
@@ -101,8 +100,8 @@ Progress markers: `[ ]` not started · `[~]` in progress · `[x]` completed
 
 ### Phase 7 — Release engineering
 
-- [ ] Build ISO automatically with GitHub Actions.
-- [ ] Verify ISO checksum and build provenance.
+- [~] Configure automated ISO builds with GitHub Actions.
+- [ ] Verify ISO checksum and build provenance on a successful build.
 - [ ] Test live boot and installation in a virtual machine.
 - [ ] Test installation and first boot on physical hardware.
 - [ ] Prepare release notes, installation guide, and troubleshooting page.
@@ -124,10 +123,10 @@ Progress markers: `[ ]` not started · `[~]` in progress · `[x]` completed
 | Category | Default policy |
 |---|---|
 | Base system | Debian 13 minimal |
-| Desktop | Minimal XFCE or LXQt; decide after benchmarks |
-| Network | NetworkManager where appropriate |
+| Desktop | Minimal XFCE; evaluate LXQt after baseline testing |
+| Network | NetworkManager and its XFCE applet |
 | Korean input | fcitx5 + Hangul |
-| Development | Python, Git, basic editor |
+| Development | Python, Git, lightweight editor |
 | Browser | Keep optional if it materially increases resource use |
 | Heavy IDEs | Optional installation |
 | Virtualization / containers | Optional installation |
